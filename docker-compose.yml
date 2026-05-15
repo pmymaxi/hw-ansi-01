@@ -1,0 +1,50 @@
+# Якоря производительности, env file
+x-deploy: &deploy-dev
+  deploy:
+    resources:
+      limits:
+        cpus: "1"
+        memory: 512M
+      reservations:
+        memory: 256M
+x-restart: &restart
+  restart: on-failure #Сервис должен всегда перезапускаться в случае ошибок
+
+services:
+  rocky9:
+    container_name: rocky9
+    hostname: rocky-ansi-hw-01
+    image: rockylinux:9 
+    <<: [*deploy-dev, *restart]
+    command: ["sleep", "infinity"]
+    networks: 
+      - backend
+
+
+  debian:
+    container_name: debian
+    hostname: debian-ansi-hw-01
+    image: python:3.11-slim  
+    <<: [*deploy-dev, *restart]
+    command: ["sleep", "infinity"]
+    networks: 
+      - backend
+    depends_on:
+      rocky9:
+        condition: service_started
+
+  fedora:
+    container_name: fedora
+    hostname: fedora-ansi-hw-01
+    image: pycontribs/fedora  
+    <<: [*deploy-dev, *restart]
+    command: ["sleep", "infinity"]
+    networks: 
+      - backend
+    depends_on:
+      debian:
+        condition: service_started  
+
+networks:
+  backend:
+    driver: bridge
