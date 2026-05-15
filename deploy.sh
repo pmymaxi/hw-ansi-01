@@ -33,5 +33,5 @@ fi
 sleep 15s
 
 docker compose down
-echo ""
+echo
 docker compose ps -a
