@@ -22,3 +22,4 @@ ok: [debian] => {
     "msg": "deb"
 }
 ```
+<img width="1528" height="4754" alt="1" src="https://github.com/user-attachments/assets/1f4eae54-9a3a-45e0-b688-00124fd585b0" />
